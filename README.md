@@ -17,5 +17,5 @@ https://kvantland.com (участие бесплатное).
 Репозиторий на Github с этой головоломкой:
 https://github.com/polozkov/11by3
 
-Интерактивная траница:
+Интерактивная страница:
 https://polozkov.github.io/11by3/
