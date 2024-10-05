@@ -36,6 +36,10 @@ SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
 SVG.EL.addEventListener("mousemove",   function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false; }, false);
 SVG.EL.addEventListener("pointermove", function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false; }, false);
 SVG.EL.addEventListener("touchmove",   function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false; }, false);
+
+SVG.EL.onmousemove =   function() {SVG.EVENTS.MOUSE.f_move(e)};
+SVG.EL.ontouchmove =   function() {SVG.EVENTS.MOUSE.f_move(e)};
+SVG.EL.onpointermove = function() {SVG.EVENTS.MOUSE.f_move(e)};
     </script>
 </body>
 
