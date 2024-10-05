@@ -95,11 +95,21 @@ SVG.EVENTS.MOUSE = {
   }
 };
 
+/*
 SVG.EL.addEventListener("pointerdown", (e) => SVG.EVENTS.MOUSE.f_down(e));
 SVG.EL.addEventListener("pointerup", (e) => SVG.EVENTS.MOUSE.f_up(e));
 SVG.EL.addEventListener("pointermove", (e) => SVG.EVENTS.MOUSE.f_move(e));
+*/
 
+//
 window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_sizes());
+//для мобильных устройств
+window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
+
+
+SVG.EL.addEventListener('touchstart', function(e) {SVG.EVENTS.MOUSE.f_down(e)});
+SVG.EL.addEventListener('touchup', function(e) {SVG.EVENTS.MOUSE.f_up(e)});
+SVG.EL.addEventListener('touchmove', function(e) {e.preventDefault(); SVG.EVENTS.MOUSE.f_move(e)});
 
 //для мобильных устройств
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
