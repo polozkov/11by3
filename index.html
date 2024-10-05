@@ -32,10 +32,11 @@
     <script type="text/javascript">
 SVG.EL.addEventListener("mousedown", (e) => SVG.EVENTS.MOUSE.f_down(e));
 SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
-
-SVG.EL.onmousemove =   function() {SVG.EVENTS.MOUSE.f_move(e)};
-SVG.EL.ontouchmove =   function() {SVG.EVENTS.MOUSE.f_move(e)};
-SVG.EL.onpointermove = function() {SVG.EVENTS.MOUSE.f_move(e)};
+SVG.EL.addEventListener("mousemove",   function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    SVG.EVENTS.MOUSE.f_move(e);
+    return false; }, false);
     </script>
 </body>
 
