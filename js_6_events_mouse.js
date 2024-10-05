@@ -109,3 +109,5 @@ if (CONST_IS_MOBILE) {
   SVG.EL.addEventListener('mouseup', (e) =>    {SVG.EVENTS.MOUSE.f_up(e); });
   SVG.EL.addEventListener('mousemove', (e) =>  {SVG.EVENTS.MOUSE.f_move(e); });
 }
+
+window.addEventListener('load', (e) => SVG.EVENTS.f_renew_sizes());
