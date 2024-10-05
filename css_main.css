@@ -14,8 +14,8 @@ html,body {
 .class_puzzle_info {
   font-size: 18pt; font-size: 3vh;
 
-  margin-top: 6pt; margin-top: 1vh;
-  margin-top: 6pt; margin-bottom: 1vh;
+  margin-top: 12pt; margin-top: 2vh;
+  margin-top: 12pt; margin-bottom: 2vh;
 
   text-align: center;
 }
