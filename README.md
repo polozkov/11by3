@@ -13,5 +13,9 @@ https://kvantik.com (издаётся с 2012 года).
 Олимпиада с интерактивными задачами "Квантландия": 
 https://kvantland.com (участие бесплатное).
 
+
+Репозиторий на Github с этой головоломкой:
+https://github.com/polozkov/11by3
+
 Интерактивная траница:
 https://polozkov.github.io/11by3/
