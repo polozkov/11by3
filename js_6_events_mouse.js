@@ -107,8 +107,8 @@ window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_sizes());
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
 
 
-SVG.EL.addEventListener('touchstart', function(e) {SVG.EVENTS.MOUSE.f_down(e)});
-SVG.EL.addEventListener('touchup', function(e) {SVG.EVENTS.MOUSE.f_up(e)});
+SVG.EL.addEventListener('touchstart', function(e) {e.preventDefault(); SVG.EVENTS.MOUSE.f_down(e)});
+SVG.EL.addEventListener('touchup', function(e) {e.preventDefault(); SVG.EVENTS.MOUSE.f_up(e)});
 SVG.EL.addEventListener('touchmove', function(e) {e.preventDefault(); SVG.EVENTS.MOUSE.f_move(e)});
 
 //для мобильных устройств
