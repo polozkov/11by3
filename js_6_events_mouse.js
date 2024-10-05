@@ -100,14 +100,4 @@ window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
 
 SVG.EL.addEventListener("mousedown", (e) => SVG.EVENTS.MOUSE.f_down(e));
 SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
-SVG.EL.addEventListener("mousemove", (e) => SVG.EVENTS.MOUSE.f_move(e));
-
-
-SVG.EL.addEventListener("touchmove", function (e) {
-  let touch = e.touches[0];
-  let my_e = ({
-    clientX: touch.clientX,
-    clientY: touch.clientY
-  });
-  SVG.EVENTS.MOUSE.f_move(my_e);
-}, false);
+SVG.EL.addEventListener("pointermove", (e) => SVG.EVENTS.MOUSE.f_move(e));
