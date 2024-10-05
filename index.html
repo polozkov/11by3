@@ -33,9 +33,9 @@
 SVG.EL.addEventListener("mousedown", (e) => SVG.EVENTS.MOUSE.f_down(e));
 SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
         
-SVG.EL.addEventListener("mousemove", (e) => function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false;}, false);
-SVG.EL.addEventListener("pointermove", (e) => function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false;}, false);
-SVG.EL.addEventListener('touchmove', function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false;}, false);
+SVG.EL.addEventListener("mousemove",   function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false; }, false);
+SVG.EL.addEventListener("pointermove", function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false; }, false);
+SVG.EL.addEventListener("touchmove",   function(e) {e.preventDefault(); e.stopPropagation(); SVG.EVENTS.MOUSE.f_move(e); return false; }, false);
     </script>
 </body>
 
