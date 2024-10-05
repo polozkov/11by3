@@ -1,0 +1,30 @@
+html,body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.class_puzzle_title {
+  font-size: 24pt; font-size: 4vh; 
+
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.class_puzzle_info {
+  font-size: 18pt; font-size: 3vh;
+
+  text-indent: 12pt; text-indent: 2vh;
+  margin-top: 6pt; margin-top: 1vh;
+  margin-top: 6pt; margin-bottom: 1vh;
+
+  text-align: justify;
+}
+
+.class_puzzle_info span {
+  font-weight: bold;
+}
+
+#id_svg_main {
+  background-color: gray;
+}
