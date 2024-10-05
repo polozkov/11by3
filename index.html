@@ -28,6 +28,14 @@
 
     <script type="text/javascript" src="js_5_events_prepare.js"></script>
     <script type="text/javascript" src="js_6_events_mouse.js"></script>
+
+    <script type="text/javascript">
+SVG.EL.addEventListener("pointerdown", (e) => SVG.EVENTS.MOUSE.f_down(e));
+SVG.EL.addEventListener("pointerup", (e) => SVG.EVENTS.MOUSE.f_up(e));
+
+SVG.EL.addEventListener("pointermove", (e) => function(e) {e.preventDefault(); SVG.EVENTS.MOUSE.f_move(e)});
+SVG.EL.addEventListener('touchmove', function(e) {e.preventDefault(); SVG.EVENTS.MOUSE.f_move(e)});
+    </script>
 </body>
 
 </html>
