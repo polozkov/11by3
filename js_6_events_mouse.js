@@ -97,3 +97,7 @@ SVG.EVENTS.MOUSE = {
 window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_sizes());
 //для мобильных устройств
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
+
+SVG.EL.addEventListener("mousedown", (e) => SVG.EVENTS.MOUSE.f_down(e));
+SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
+SVG.EL.addEventListener("pointermove", (e) => SVG.EVENTS.MOUSE.f_move(e));
