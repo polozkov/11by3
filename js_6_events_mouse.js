@@ -2,7 +2,7 @@ SVG.EVENTS.MOUSE = {
   f_down: function (e) {
     //получи и нформацию про нажатие
     let info_press = SVG.EVENTS.f_get_info_press_by_xy_rel(new CLASS_XY(e.clientX, e.clientY));
-    //нажати в пустоту
+    //нажали в пустоту
     if (info_press == null) { return; }
     //нажатие мимо уголка
     if (info_press.n_corner == null) { return; }
@@ -58,8 +58,6 @@ SVG.EVENTS.MOUSE = {
       //новый уголок со флагом в зоне ответа и на нужном положении
       let NEW_CORNER = (new CLASS_POLYOMINO(OLD_CORNER.arr_xy, false)).f_op_move_to(new_min_relative).f_get_round();
       SVG.EVENTS.f_renew_element(NEW_CORNER);
-
-      console.log("getAnswer", getAnswer());
       return;
     }
 
@@ -74,10 +72,12 @@ SVG.EVENTS.MOUSE = {
   },
 
   f_move: function (e) {
+
     let info_press = SVG.EVENTS.f_get_info_press_by_xy_rel(new CLASS_XY(e.clientX, e.clientY), true);
     if (info_press == null) { return; }
     if (SVG.EVENTS.e_press_down == null) { return; }
     if (SVG.EVENTS.e_press_down.n_corner == null) { return; }
+
     //число клеток в перемещаемом уголке
     let n_corner_was_3_8 = SVG.EVENTS.e_press_down.obj_corner.arr_xy.length;
 
@@ -94,10 +94,18 @@ SVG.EVENTS.MOUSE = {
     SVG.DRAW.f_final();
   }
 };
+
 window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_sizes());
-//для мобильных устройств
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
 
-SVG.EL.addEventListener("mousedown", (e) => SVG.EVENTS.MOUSE.f_down(e));
-SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
-SVG.EL.addEventListener("pointermove", (e) => SVG.EVENTS.MOUSE.f_move(e));
+const CONST_IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+if (CONST_IS_MOBILE) {
+  SVG.EL.addEventListener('touchstart', (e) => { e.preventDefault(); SVG.EVENTS.MOUSE.f_down(e.touches[0]); });
+  SVG.EL.addEventListener('pointerup', (e) =>  { e.preventDefault(); SVG.EVENTS.MOUSE.f_up(e); });
+  SVG.EL.addEventListener('pointermove', (e) =>{ e.preventDefault(); SVG.EVENTS.MOUSE.f_move(e); });
+} else {
+  SVG.EL.addEventListener('mousedown', (e) =>  {SVG.EVENTS.MOUSE.f_down(e); });
+  SVG.EL.addEventListener('mouseup', (e) =>    {SVG.EVENTS.MOUSE.f_up(e); });
+  SVG.EL.addEventListener('mousemove', (e) =>  {SVG.EVENTS.MOUSE.f_move(e); });
+}
