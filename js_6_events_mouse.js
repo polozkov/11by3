@@ -100,5 +100,7 @@ SVG.EL.addEventListener("pointerup", (e) => SVG.EVENTS.MOUSE.f_up(e));
 SVG.EL.addEventListener("pointermove", (e) => SVG.EVENTS.MOUSE.f_move(e));
 
 window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_sizes());
+
 //для мобильных устройств
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
+SVG.EL.addEventListener('touchmove', function(e) {e.preventDefault();});
