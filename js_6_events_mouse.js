@@ -100,4 +100,4 @@ window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
 
 SVG.EL.addEventListener("mousedown", (e) => SVG.EVENTS.MOUSE.f_down(e));
 SVG.EL.addEventListener("mouseup", (e) => SVG.EVENTS.MOUSE.f_up(e));
-SVG.EL.addEventListener("pointermove", (e) => SVG.EVENTS.MOUSE.f_move(e));
+SVG.EL.addEventListener("mousemove", (e) => SVG.EVENTS.MOUSE.f_move(e));
