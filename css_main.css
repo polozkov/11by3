@@ -28,3 +28,13 @@ html,body {
 #id_svg_main {
   background-color: gray;
 }
+
+
+.class_puzzle_info, .class_puzzle_title {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
