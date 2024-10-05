@@ -14,11 +14,10 @@ html,body {
 .class_puzzle_info {
   font-size: 18pt; font-size: 3vh;
 
-  text-indent: 12pt; text-indent: 2vh;
   margin-top: 6pt; margin-top: 1vh;
   margin-top: 6pt; margin-bottom: 1vh;
 
-  text-align: left;
+  text-align: center;
 }
 
 .class_puzzle_info span {
