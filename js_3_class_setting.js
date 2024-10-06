@@ -1,7 +1,7 @@
 //константы для настройки
 const C = {
   //цвета с номерами от 3 до 8 (количество клеток в уголке)
-  ARR_COLORS_3_8: ["", "", "", "Chocolate", "Navy", "Purple", "Yellow", "Red", "Green"],
+  ARR_COLORS_3_8: ["", "", "", "Chocolate", "RoyalBlue", "Purple", "Yellow", "Red", "Green"],
   COLOR_STROKE: "Black", //цвет линий для клеток
   COLOR_GRAY: "Gray", //серые границы в зоне старта - обводка для домика "слота"
   
