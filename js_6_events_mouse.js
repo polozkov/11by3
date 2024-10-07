@@ -12,6 +12,7 @@ SVG.EVENTS.MOUSE = {
     SVG.EVENTS.e_press_down = info_press; //запиши информацию про текущее нажатие
     SVG.SETTING.f_change_order(info_press.n_corner); //поменяй порядок уголков
     SVG.DRAW.f_final(); //перерисуй
+    SVG.EVENTS.f_renew_sizes();
   },
 
   f_up: function (e) {
