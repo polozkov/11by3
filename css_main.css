@@ -5,21 +5,22 @@ html,body {
 }
 
 .class_puzzle_title {
-  font-size: 20pt; font-size: 5vmin;
+  font-size: 24pt; font-size: 4vmin;
 
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
 .class_puzzle_info {
-  font-size: 16pt; font-size: 4vmin;
+  font-size: 18pt; font-size: 3vmin;
 
-  margin-top: 12pt; margin-top: 3vmin;
-  margin-top: 12pt; margin-bottom: 3vmin;
-  margin-left: 4pt; margin-left: 1vmin;
+  margin-top: 12pt; margin-top: 2vmin;
+  margin-top: 12pt; margin-bottom: 2vmin;
+  margin-left: 6pt; margin-left: 1vmin;
+  margin-right: 6pt; margin-right: 1vmin;
 
   text-align: justify;
-  text-indent: 16pt; text-indent: 4vmin;
+  text-indent: 18pt; text-indent: 3vmin;
 }
 
 .class_puzzle_info span {
