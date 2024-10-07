@@ -97,4 +97,10 @@ class CLASS_POLYOMINO {
     if ((this.arr_xy.length == 4) && (n_cell == 2)) {return this.f_get_dir_short().f_op_subtract(this.f_get_dir_long()); }
     return null;
   }
+
+  f_is_min_max_on_area(start_xy, sizes_xy) {
+    let min_ok = this.f_get_min().f_is_on_area(start_xy, sizes_xy);
+    let max_ok = this.f_get_max().f_is_on_area(start_xy, sizes_xy);
+    return min_ok && max_ok;
+  }
 };

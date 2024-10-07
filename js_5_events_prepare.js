@@ -28,9 +28,10 @@ function getAnswer(setting = SVG.SETTING) {
 SVG.EVENTS = {
   //информация о предыдущем нажатии мыши
   e_press_down: null,
+  e_press_array: [],
 
   //обнови размеры окна
-  f_renew_sizes: function() {
+  f_renew_sizes: function(flag_is_redraw) {
     //обнови настройки, но сохрани уголки
     SVG.SETTING = new CLASS_SETTING(SVG.SETTING.arr_corners);
     //гуляющий уголок (который сейчас могли перетаскивать мышью) верни в зону старта
@@ -100,6 +101,14 @@ SVG.EVENTS = {
     SVG.DRAW.f_final(); //перерисуй
     SVG.EVENTS.e_press_down = null; //прочист информацию про нажатие мыши
     if (flag_is_renew_sizes) {SVG.EVENTS.f_renew_sizes(); }
+  },
+
+  f_do_correction: function() {
+    if(SVG.EVENTS.e_press_array.length) {
+      let n_3_8 = SVG.EVENTS.e_press_array.at(-1);
+      let n = SVG.SETTING.f_search_n_3_8(n_3_8);
+      SVG.SETTING.arr_corners[n] = SVG.SETTING.f_legal_slot(SVG.SETTING.arr_corners[n]);
+    }
   },
 
   //тут будут функции для событий мыши (нажатие, отпускание, перемещение)

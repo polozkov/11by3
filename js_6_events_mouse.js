@@ -9,10 +9,14 @@ SVG.EVENTS.MOUSE = {
     //нажатие мимо уголка
     if (info_press.n_corner == null) { return; }
 
+    SVG.EVENTS.f_renew_sizes();
+
     SVG.EVENTS.e_press_down = info_press; //запиши информацию про текущее нажатие
     SVG.SETTING.f_change_order(info_press.n_corner); //поменяй порядок уголков
+    SVG.EVENTS.e_press_array.push(info_press.obj_corner.arr_xy.length);
+    
     SVG.DRAW.f_final(); //перерисуй
-    SVG.EVENTS.f_renew_sizes();
+    
   },
 
   f_up: function (e) {
@@ -24,12 +28,14 @@ SVG.EVENTS.MOUSE = {
     //если раньше не был нажат уголок, то ничего не делай
     if (SVG.EVENTS.e_press_down.n_corner == null) { return; }
 
-    let OLD_CORNER = SVG.EVENTS.e_press_down.obj_corner;
+    let OLD_PRESS = SVG.EVENTS.e_press_down;
+    let OLD_CORNER = OLD_PRESS.obj_corner;
+    //SVG.EVENTS.f_renew_sizes();
 
     //отпущена та же самая клетка, что и нажата
-    if (SVG.EVENTS.e_press_down.n_cell_xy.f_is_equal_xy(info_press.n_cell_xy)) {
+    if (OLD_PRESS.n_cell_xy.f_is_equal_xy(info_press.n_cell_xy)) {
       //отрази уголок
-      let NEW_CORNER = OLD_CORNER.f_op_reflex_event(SVG.EVENTS.e_press_down.n_cell);
+      let NEW_CORNER = OLD_CORNER.f_op_reflex_event(OLD_PRESS.n_cell);
       //проверь, остался ли уголок в зоне ответа после отражения
       let on_board = SVG.SETTING.f_is_on_answer(NEW_CORNER.f_get_min()) && SVG.SETTING.f_is_on_answer(NEW_CORNER.f_get_max());
 
@@ -54,6 +60,8 @@ SVG.EVENTS.MOUSE = {
     //новая координата нажатого уголка (с ущётом разницы между двумя событиями мыши: поднятием и нажатием)
     let new_min_xy_absolute = old_min_xy_absolute.f_op_add(delta_cell).f_get_round();
     let new_max_xy_absolute = new_min_xy_absolute.f_op_add(OLD_CORNER.f_get_sizes()).f_op_add_same(-1);
+
+
     //новое положение уголка будет челиком на доске (не выходя за границу)
     let flag_is_on_answer_board = SVG.SETTING.f_is_on_answer(new_min_xy_absolute) && SVG.SETTING.f_is_on_answer(new_max_xy_absolute);
 
@@ -62,7 +70,7 @@ SVG.EVENTS.MOUSE = {
       let new_min_relative = new_min_xy_absolute.f_op_subtract(SVG.SETTING.xy_answer_from);
       //новый уголок со флагом в зоне ответа и на нужном положении
       let NEW_CORNER = (new CLASS_POLYOMINO(OLD_CORNER.arr_xy, false)).f_op_move_to(new_min_relative).f_get_round();
-      SVG.EVENTS.f_renew_element(NEW_CORNER, true);
+      SVG.EVENTS.f_renew_element(NEW_CORNER);
       return;
     }
 
@@ -70,13 +78,17 @@ SVG.EVENTS.MOUSE = {
     if (!flag_is_on_answer_board) {
       //верни нажаты уголок в зону старта
       let NEW_CORNER = SVG.SETTING.f_put_n_3_8_corner_on_start(OLD_CORNER.arr_xy.length).f_op_set_flag(true);
-      SVG.EVENTS.f_renew_element(NEW_CORNER, true);
+      SVG.EVENTS.f_renew_element(NEW_CORNER);
       return;
     }
 
   },
 
   f_move: function (e) {
+    if (e.buttons === 0) {
+      SVG.EVENTS.f_do_correction();
+      return;
+    }
     let info_press = SVG.EVENTS.f_get_info_press_by_xy_rel(new CLASS_XY(e.clientX, e.clientY), true);
 
     if (info_press == null) {return; }
@@ -101,6 +113,7 @@ SVG.EVENTS.MOUSE = {
 
 window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_sizes());
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_sizes());
+SVG.EL.addEventListener('contextmenu', event => event.preventDefault());
 
 const CONST_IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 

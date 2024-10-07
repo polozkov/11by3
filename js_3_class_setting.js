@@ -166,6 +166,15 @@ class CLASS_SETTING {
   //находится ли клетка внутри зоны ответа?
   f_is_on_answer(n_xy) {return n_xy.f_is_on_area(this.xy_answer_from, this.xy_answer_sizes);}
 
+  f_legal_slot(polyomino, flag_do_round = false) {
+    let n_3_8 = polyomino.arr_xy.length;
+    if (polyomino.flag_is_start) {return this.f_put_n_3_8_corner_on_start(n_3_8); }
+    let new_polyomino = flag_do_round ? polyomino.f_get_round() : polyomino.f_get_copy();
+
+    if (new_polyomino.f_is_min_max_on_area(this.xy_answer_from, this.xy_answer_sizes)) {return new_polyomino;}
+    return this.f_put_n_3_8_corner_on_start(n_3_8, new_polyomino.f_op_set_flag(true));
+  }
+
   //определи абсолютные и относительные ЦЕЛОЧИСЛЕННЫЕ координаты
   f_detect_start_or_answer(n_xy) {
     if (this.f_is_on_start(n_xy)) {return ({
