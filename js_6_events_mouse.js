@@ -1,5 +1,7 @@
 SVG.EVENTS.MOUSE = {
   f_down: function (e) {
+    SVG.EVENTS.f_renew_sizes();
+
     //получи и нформацию про нажатие
     let info_press = SVG.EVENTS.f_get_info_press_by_xy_rel(new CLASS_XY(e.clientX, e.clientY));
     //нажали в пустоту
@@ -32,7 +34,9 @@ SVG.EVENTS.MOUSE = {
 
       //поставь уголок в зону старта, если он вне доски (и поставь флаг, что на зоне старта)
       if (!on_board) { NEW_CORNER = SVG.SETTING.f_put_n_3_8_corner_on_start(NEW_CORNER.arr_xy.length, NEW_CORNER).f_op_set_flag(true); }
+      
       SVG.EVENTS.f_renew_element(NEW_CORNER);
+      
       return;
     }
 
@@ -57,7 +61,7 @@ SVG.EVENTS.MOUSE = {
       let new_min_relative = new_min_xy_absolute.f_op_subtract(SVG.SETTING.xy_answer_from);
       //новый уголок со флагом в зоне ответа и на нужном положении
       let NEW_CORNER = (new CLASS_POLYOMINO(OLD_CORNER.arr_xy, false)).f_op_move_to(new_min_relative).f_get_round();
-      SVG.EVENTS.f_renew_element(NEW_CORNER);
+      SVG.EVENTS.f_renew_element(NEW_CORNER, true);
       return;
     }
 
@@ -65,18 +69,18 @@ SVG.EVENTS.MOUSE = {
     if (!flag_is_on_answer_board) {
       //верни нажаты уголок в зону старта
       let NEW_CORNER = SVG.SETTING.f_put_n_3_8_corner_on_start(OLD_CORNER.arr_xy.length).f_op_set_flag(true);
-      SVG.EVENTS.f_renew_element(NEW_CORNER);
+      SVG.EVENTS.f_renew_element(NEW_CORNER, true);
       return;
     }
 
   },
 
   f_move: function (e) {
-
     let info_press = SVG.EVENTS.f_get_info_press_by_xy_rel(new CLASS_XY(e.clientX, e.clientY), true);
-    if (info_press == null) { return; }
-    if (SVG.EVENTS.e_press_down == null) { return; }
-    if (SVG.EVENTS.e_press_down.n_corner == null) { return; }
+
+    if (info_press == null) {return; }
+    if (SVG.EVENTS.e_press_down == null) {return; }
+    if (SVG.EVENTS.e_press_down.n_corner == null) {return; }
 
     //число клеток в перемещаемом уголке
     let n_corner_was_3_8 = SVG.EVENTS.e_press_down.obj_corner.arr_xy.length;
@@ -88,7 +92,6 @@ SVG.EVENTS.MOUSE = {
     //положение перемещаемого элемента
     let NEW_CORNER = SVG.EVENTS.e_press_down.obj_corner.f_op_add(delta_cell);
 
-    //переммести элемент-уголок
     SVG.SETTING.arr_corners[SVG.SETTING.f_search_n_3_8(n_corner_was_3_8)] = NEW_CORNER;
     //перерисуй
     SVG.DRAW.f_final();

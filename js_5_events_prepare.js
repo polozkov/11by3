@@ -93,12 +93,13 @@ SVG.EVENTS = {
   },
 
   //обнови информацию с перезаписью элемента
-  f_renew_element: function(new_corner) {
+  f_renew_element: function(new_corner, flag_is_renew_sizes = false) {
     //найди элемент с тем же числом клеток (число клеток уникально для всех уголков)
     let index_corner = SVG.SETTING.f_search_n_3_8(new_corner.arr_xy.length);
     SVG.SETTING.arr_corners[index_corner] = new_corner; //перезапиши
     SVG.DRAW.f_final(); //перерисуй
     SVG.EVENTS.e_press_down = null; //прочист информацию про нажатие мыши
+    if (flag_is_renew_sizes) {SVG.EVENTS.f_renew_sizes(); }
   },
 
   //тут будут функции для событий мыши (нажатие, отпускание, перемещение)
