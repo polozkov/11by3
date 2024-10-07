@@ -9,6 +9,8 @@ html,body {
 
   margin-top: 0em;
   margin-bottom: 0em;
+
+  text-align: center;
 }
 
 .class_puzzle_info {
@@ -16,8 +18,8 @@ html,body {
 
   margin-top: 1.5em;
   margin-bottom: 1.5em;
-  margin-left: 1em;
-  margin-right: 1em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 
   text-align: justify;
   text-indent: 1em;
