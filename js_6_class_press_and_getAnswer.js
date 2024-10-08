@@ -54,10 +54,10 @@ class CLASS_PRESS {
 
 
 //SVG.SETTING уже инициализирован new CLASS_SETTING(); установи размеры
-SVG.SETTING.f_set_svg_sizes(); SVG.DRAW.f_final();
+SVG.SETTING.f_set_svg_sizes(); //SVG.DRAW.f_final();
 SVG.SETTING = new CLASS_SETTING();
 //ещё раз установи размеры, чтобы решить проблему с полосой прокрутки
-SVG.SETTING.f_set_svg_sizes(); SVG.DRAW.f_final();
+SVG.SETTING.f_set_svg_sizes(); //SVG.DRAW.f_final();
 
 //функция (смотри техзадание), которая возвращает матрицу по размерам зоны ответа с единицами и нулями
 function getAnswer() {
