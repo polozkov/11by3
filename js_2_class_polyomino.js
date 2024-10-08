@@ -95,22 +95,10 @@ class CLASS_POLYOMINO {
     return null;
   }
 
+  //облась задана началом и размерами. Помещается ли полимино на этой области?
   f_is_min_max_on_area(start_xy, sizes_xy) {
     let min_ok = this.f_get_min().f_is_on_area(start_xy, sizes_xy);
     let max_ok = this.f_get_max().f_is_on_area(start_xy, sizes_xy);
     return min_ok && max_ok;
-  }
-
-  f_get_inscribe_min_max_in_area(start_xy, sizes_xy) {
-    let min = this.f_get_min();
-    let max = this.f_get_max();
-    let delta = new CLASS_XY(0,0);
-    let final_xy = start_xy.f_op_add(sizes_xy).f_op_add_same(-1);
-
-    for (let c of ["x","y"]) {
-      if (min[c] < start_xy[c]) {delta[c] = min[c] - start_xy[c];}
-      if (max[c] > final_xy[c]) {delta[c] = max[c] - final_xy[c];}
-    }
-    return this.f_op_add(delta);
   }
 };
