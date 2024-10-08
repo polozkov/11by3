@@ -1,11 +1,10 @@
 //полиомино из (фигура квадратных клеток), например уголок
 class CLASS_POLYOMINO {
   //квадраты описываются двумя координатами, флаг показывает: находитя ли уголок в стартовой зоне или в зоне ответов
-  constructor(arr_xy, flag_is_start = true) {
+  constructor(arr_xy) {
     //встроенный метод массива map - отображение - мы копируем объекты "точка"
     this.arr_xy = arr_xy.map(value => new CLASS_XY(value.x, value.y));
-    //по умолчанию уголок в стартовой зоне (потом его передвинут в зону ответа и инвертируют флаг)
-    this.flag_is_start = flag_is_start;}
+  }
 
   //глубокое копирование объекта "полиомино"
   f_get_copy() {return new CLASS_POLYOMINO(this.arr_xy, this.flag_is_start); }
@@ -30,11 +29,9 @@ class CLASS_POLYOMINO {
   f_op_swap_xy(center=CONST_0_0) {return this.f_do_foreach_xy("f_op_swap_xy", [center]);}
   //передвинь полиомино в заданное положеие (не зависимо от того, где оно было изначально)
   f_op_move_to(center=CONST_0_0) {return this.f_op_add(center.f_op_subtract(this.f_get_min()));}
-
-  //установи значение булева флага, само полимино не меняй
-  f_op_set_flag(new_flag_is_start) {return new CLASS_POLYOMINO(this.arr_xy, new_flag_is_start); }
+  
   //округли все координаты квадратиков
-  f_get_round() {return this.f_do_foreach_xy("f_get_round", []);}
+  f_get_round(flag_do = true) {return (flag_do ? this.f_do_foreach_xy("f_get_round", []): this.f_get_copy());}
 
   //имеют ли два полиомино общий квадрат? (пересечение)
   f_is_intersect(other_polyomino) {
@@ -102,5 +99,18 @@ class CLASS_POLYOMINO {
     let min_ok = this.f_get_min().f_is_on_area(start_xy, sizes_xy);
     let max_ok = this.f_get_max().f_is_on_area(start_xy, sizes_xy);
     return min_ok && max_ok;
+  }
+
+  f_get_inscribe_min_max_in_area(start_xy, sizes_xy) {
+    let min = this.f_get_min();
+    let max = this.f_get_max();
+    let delta = new CLASS_XY(0,0);
+    let final_xy = start_xy.f_op_add(sizes_xy).f_op_add_same(-1);
+
+    for (let c of ["x","y"]) {
+      if (min[c] < start_xy[c]) {delta[c] = min[c] - start_xy[c];}
+      if (max[c] > final_xy[c]) {delta[c] = max[c] - final_xy[c];}
+    }
+    return this.f_op_add(delta);
   }
 };

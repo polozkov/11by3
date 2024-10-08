@@ -65,7 +65,7 @@ SVG.DRAW = {
   f_polyomino: function(i_polyomino, setting = SVG.SETTING, is_gray = false) {
     let svg_result = "";
     //в какой области рисуем (зона старта или зона игры)
-    let shift_xy = i_polyomino.flag_is_start ? setting.xy_start_from : setting.xy_answer_from;
+    let shift_xy = new CLASS_XY(0,0); //i_polyomino.flag_is_start ? setting.xy_start_from : setting.xy_answer_from;
     for (let i_nxy of i_polyomino.arr_xy)
       svg_result += SVG.DRAW.f_rect_cell(i_nxy, i_polyomino.arr_xy.length, shift_xy, is_gray);
 
@@ -91,7 +91,7 @@ SVG.DRAW = {
   },
 
   //в итоге рисуем всё в зависимости от настроек
-  f_final: function(setting = SVG.SETTING) {
+  f_final: function(obj_special_corner = null, setting = SVG.SETTING) {
     let svg_corners_and_board = "";
     //пустое клетчатое поле
     svg_corners_and_board += SVG.DRAW.f_empty_grid(setting.xy_answer_from, setting.xy_answer_sizes);
@@ -99,13 +99,20 @@ SVG.DRAW = {
     //все полимино (домики-слоты), рисуй всегда (алгоритм художника их закроет)
     for (let n_always_slots of [0,1,2,3,4,5]) {
       //начальное положение полиомино (по умолчанию на своём месте, но может быть повёрнуто)
-      let i_polyomino = setting.f_put_n_corner_on_start(n_always_slots).f_op_set_flag(true);
+      let i_polyomino = setting.f_put_n_corner_on_start(n_always_slots);
       svg_corners_and_board += SVG.DRAW.f_polyomino(i_polyomino, setting, true);
     }
 
     //рисуй полимино с границами (если в зоне старта, то поверх "домиков-слотов")
-    for (let i_polyomino of setting.arr_corners)
-      svg_corners_and_board += SVG.DRAW.f_polyomino(i_polyomino, setting, false);
+    for (let i_polyomino of setting.arr_corners) {
+      let svg_polyomino = SVG.DRAW.f_polyomino(i_polyomino, setting, false);
+      
+      if ((obj_special_corner != null) && (obj_special_corner.arr_xy.length == i_polyomino.arr_xy.length)) {
+        svg_polyomino = SVG.DRAW.f_polyomino(obj_special_corner, setting, false);
+      }
+
+      svg_corners_and_board += svg_polyomino;
+    }
 
     //две рамки для двух зон для красивой границы
     svg_corners_and_board += SVG.DRAW.f_rect(setting.xy_answer_from, "none", setting.xy_answer_sizes);

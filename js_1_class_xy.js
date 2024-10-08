@@ -8,8 +8,6 @@ class CLASS_XY {
   f_get_swap_xy() {return new CLASS_XY(this.y, this.x);}
   //ориентация, если квадратное поле или вытянутое альбомно, то "hory", если вытянуто вверх, то "vert"
   f_get_vert_or_hory_string() {return ((this.x >= this.y) ? "hory" : "vert"); }
-  //пиши лог в консоль с данной строкой и значениями Х,У
-  f_get_log(my_string = "") {console.log(my_string + " X:" + this.x + " Y:" + this.y); }
   //верни округлённые числа по обеим координатам (10000 нужно, чтобы не было проблем с отрицательными числами типа -1.5 и -0.5)
   f_get_round() {return new CLASS_XY(Math.round(this.x + 10000) - 10000, Math.round(this.y + 10000) - 10000); }
 

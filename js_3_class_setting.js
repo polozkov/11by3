@@ -44,11 +44,16 @@ const C = {
     return new CLASS_POLYOMINO(arr_xy_final.map(value => new CLASS_XY(...value)), true);
   },
 
+  F_XY_START: function(n_3_8, str_ori) {
+    let xy_start_position = new CLASS_XY(...C.V_H_ARR_START[str_ori][n_3_8 - 3]);
+    let xy_start_from = new CLASS_XY(...C.V_H_START_FROM[str_ori]);
+    return xy_start_position.f_op_add(xy_start_from);
+  },
+
   //уголок (полиомино) на стартовой зоне (координаты минимума относительно стартовой зоны)
-  F_CORNER_ON_START: function (n_cells, i, str_ori) {
-    let xy_start_position = new CLASS_XY(...C.V_H_ARR_START[str_ori][i]);
+  F_CORNER_ON_START: function (n_3_8, str_ori) {
     //move_to означает фиксацию минимальных координат (сдвинь на это место)
-    return C.F_CORNER_ON_ZERO(n_cells).f_op_move_to(xy_start_position);
+    return C.F_CORNER_ON_ZERO(n_3_8).f_op_move_to(C.F_XY_START(n_3_8, str_ori));
   }
 };
 
@@ -92,9 +97,6 @@ class CLASS_SETTING {
     //размер одной ячейки
     this.xy_cell_sizes = this.xy_svg_maximized.f_op_divide(this.xy_view_sizes);
 
-    //если углоки не заданы, то задай их их начальное положение
-    this.arr_corners = arr_corners || ([3, 4, 5, 6, 7, 8].map((n, i) => C.F_CORNER_ON_START(n, i, this.str_ori)));
-
     //цвета от 3 до 8 клетчатых уголков
     this.arr_colors_3_8 = C.ARR_COLORS_3_8.slice();
     //цвет рамок
@@ -107,13 +109,26 @@ class CLASS_SETTING {
 
     //толщина линий рамок
     this.line_width = C.LINE_WIDTH_FOR_CELLS;
+
+    //если углоки не заданы, то задай их их начальное положение
+    this.arr_corners = arr_corners || ([3, 4, 5, 6, 7, 8].map((n, i) => C.F_CORNER_ON_START(n, this.str_ori)));
   }
 
   //найди номер уголка с таким числом клеток
-  f_search_n_3_8(n_3_8) {
-    for (let i = 0; i <= 5; i++)
-    if (this.arr_corners[i].arr_xy.length == n_3_8)
-      return i;
+  f_search_n_3_8(n_3_8) {for (let i = 0; i <= 5; i++) if (this.arr_corners[i].arr_xy.length == n_3_8) return i;}
+
+  //найди номер уголка с таким числом клеток
+  f_search_n_by_obj(obj) {if (!obj) {return null; } return this.f_search_n_3_8(obj.arr_xy.length); }
+
+  f_rewrite_corner(obj) {
+    let n = this.f_search_n_by_obj(obj);
+    this.arr_corners[n] = obj.f_get_copy();
+  }
+
+  f_get_old_corner() {
+    if (!this.obj_active_corner_3_8) {return null; }
+    let n = this.f_search_n_by_obj(this.obj_active_corner_3_8);
+    return this.arr_corners[n].f_get_copy();
   }
 
   //координата угла нужной зоны (либо xy_start_from, либо xy_answer_from)
@@ -128,7 +143,7 @@ class CLASS_SETTING {
     //положение зависит не только от номера 3..8, но и от ориентации экрана
     let i_3_8 = this.arr_corners[n].arr_xy.length;
     //домик-слот для n-ного уголка
-    let i_xy_start = new CLASS_XY(...C.V_H_ARR_START[this.str_ori][i_3_8 - 3]);
+    let i_xy_start = C.F_XY_START(i_3_8, this.str_ori);
     //передвинь уголок на нужный слот (или вручную заданный уголок)
     return (obj_corner || this.arr_corners[n]).f_op_move_to(i_xy_start).f_get_round();
   }
@@ -139,24 +154,15 @@ class CLASS_SETTING {
     return this.f_put_n_corner_on_start(n, obj_corner);
   }
 
-  //все уголки из зоны старта положи на начальное положение
-  f_put_corners_on_start() {
-    //перебери все уголки от 3 до 8 клеток
-    for (let i = 3; i <= 8; i++)
-    //положи уголок с таким числом клеток в начало
-    for (let t = 0; t < this.arr_corners.length; t++)
-    //работай поочерёдно с трёшкой, четвёркой, пятёркой и так до восьмёрки
-    if ((this.arr_corners[t].arr_xy.length == i)&&(this.arr_corners[t].flag_is_start))
-      this.arr_corners[t] = this.f_put_n_corner_on_start(t);
-  }
-
   //какая клетка нажата (по относительных координатам мыши - относитель элемента svg)
-  f_get_pressed_cell(mouse_xy_rel) {
+  f_get_pressed_cell(mouse_xy_rel, flag_do_floor = true) {
     let svg_m = this.xy_svg_maximized; //размеры SVG элемента, который вписан в окно
     //координаты xy_view_sizes * [0..1,0..1] потому что: mouse_xy_rel внутри [0..svg_m]
     let from_0_0 = this.xy_view_sizes.f_op_scale_x_y(mouse_xy_rel.x / svg_m.x, mouse_xy_rel.y / svg_m.y);
     //сдвинь на половину толщины линии (рамка)
     let from_line = from_0_0.f_op_add_same(-0.5 * this.line_width);
+    if (!flag_do_floor) {return from_line; }
+
     //для получение целочисленных координат клетки, округляй вниз
     return new CLASS_XY(Math.floor(from_line.x), Math.floor(from_line.y));
   }
@@ -166,29 +172,20 @@ class CLASS_SETTING {
   //находится ли клетка внутри зоны ответа?
   f_is_on_answer(n_xy) {return n_xy.f_is_on_area(this.xy_answer_from, this.xy_answer_sizes);}
 
-  f_legal_slot(polyomino, flag_do_round = false) {
-    let n_3_8 = polyomino.arr_xy.length;
-    if (polyomino.flag_is_start) {return this.f_put_n_3_8_corner_on_start(n_3_8); }
-    let new_polyomino = flag_do_round ? polyomino.f_get_round() : polyomino.f_get_copy();
-
-    if (new_polyomino.f_is_min_max_on_area(this.xy_answer_from, this.xy_answer_sizes)) {return new_polyomino;}
-    return this.f_put_n_3_8_corner_on_start(n_3_8, new_polyomino.f_op_set_flag(true));
+  f_is_corner_on_answer(obj_corner) {return obj_corner.f_is_min_max_on_area(this.xy_answer_from, this.xy_answer_sizes); }
+  
+  //все уголки из зоны старта положи на начальное положение
+  f_put_corners_on_start(flag_do_work = true) {
+    if (!flag_do_work) {return; }
+    //перебери все уголки от 3 до 8 клеток
+    for (let i = 3; i <= 8; i++)
+    //положи уголок с таким числом клеток в начало
+    for (let t = 0; t < this.arr_corners.length; t++)
+    //работай поочерёдно с трёшкой, четвёркой, пятёркой и так до восьмёрки
+    if ((this.arr_corners[t].arr_xy.length == i)&&(!this.f_is_corner_on_answer(this.arr_corners[t])))
+      this.arr_corners[t] = this.f_put_n_corner_on_start(t);
   }
-
-  //определи абсолютные и относительные ЦЕЛОЧИСЛЕННЫЕ координаты
-  f_detect_start_or_answer(n_xy) {
-    if (this.f_is_on_start(n_xy)) {return ({
-      name_string: "start", 
-      abs_xy: n_xy,
-      rel_xy: n_xy.f_op_subtract(this.xy_start_from) });}
-
-    if (this.f_is_on_answer(n_xy)) {return ({
-      name_string: "answer", 
-      abs_xy: n_xy,
-      rel_xy: n_xy.f_op_subtract(this.xy_answer_from)});}
-    return null;
-  }
-
+  
   //установи размеры SVG элементы и viewbox
   f_set_svg_sizes() {
     SVG.EL.setAttribute("width", this.xy_svg_maximized.x + "px");
@@ -197,7 +194,9 @@ class CLASS_SETTING {
   }
 
   //поменяй порядок для алгоритма художника (последний уголок рисуем в конце, то есть сверху)
-  f_change_order(n_will_be_last) {
+  f_change_order(n_3_8_will_be_last) {
+    let n_will_be_last = this.f_search_n_3_8(n_3_8_will_be_last);
+
     let order = [0,1,2,3,4,5]; //все 6 уголков в начальном порядке
     order.splice(n_will_be_last, 1); //удали один номер
     order.push(n_will_be_last); //...и добавь этот номер в конец
