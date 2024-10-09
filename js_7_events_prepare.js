@@ -42,7 +42,7 @@ SVG.EVENTS = {
     SVG.EVENTS.f_renew_with_resizing_setting_class(true, null);
 
     if (OLD_CORNER.f_is_reflex_mark_direction(e_old.corner_cell_index))
-      console.log("f_try_reflec_because_same_cell; function getAnswer() return", getAnswer());
+      console.log("ФУНКЦИЯ getAnswer() из техзадания: return ОТРАЖЕНИЕ - ЗЕРКАЛО", getAnswer());
     return true;
   },
 
@@ -65,7 +65,7 @@ SVG.EVENTS = {
     SVG.EVENTS.f_renew_with_resizing_setting_class(true, NEW_CORNER.f_get_round());
     SVG.EVENTS.f_resize_and_clear_e3();
 
-    console.log("f_change_corner; function getAnswer() return", getAnswer());
+    console.log("ФУНКЦИЯ getAnswer() из техзадания: return ПЕРЕМЕЩЕНИЕ В ЗОНЕ ОТВЕТА", getAnswer());
   },
 
   //верни истина, если нашёл слот, где закончить ход (не обязательно целочисленный: можно и вещественный - промежуточный)
