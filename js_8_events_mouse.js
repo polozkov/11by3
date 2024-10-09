@@ -88,4 +88,5 @@ window.addEventListener("resize", (e) => SVG.EVENTS.f_renew_with_resizing_settin
 window.addEventListener("orientationchange", (e) => SVG.EVENTS.f_renew_with_resizing_setting_class(true, null, 2));
 
 //когда всё загрузится, перерисуй
-window.addEventListener('load', (e) => SVG.EVENTS.f_renew_with_resizing_setting_class(true, null, 1));
+//window.addEventListener('load', (e) => SVG.EVENTS.f_renew_with_resizing_setting_class(true, null, 1));
+SVG.EVENTS.f_renew_with_resizing_setting_class(true, null, 1);
